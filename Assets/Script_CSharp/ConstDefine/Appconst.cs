@@ -8,4 +8,6 @@ public class Appconst{
     public static string streammingAssets = "StreammingAssets";
 
     public static string url = "";
+    public static string LuaDir = "LuaDir";
+    public static string ExactName = ".assetbundle";
 }
