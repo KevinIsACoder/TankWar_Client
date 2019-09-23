@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PureMVC.Interfaces;
 using PureMVC.Patterns.Observer;
+using System;
 namespace PureMVC.Patterns.Command
 {
     public class SimpleCommand : Notifier, ICommand, INotifier

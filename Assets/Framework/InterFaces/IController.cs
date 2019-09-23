@@ -8,7 +8,7 @@ namespace PureMVC.Interfaces
 {
 	public interface IController
     {
-		void RegisterCommand(string notificationName, Func<ICommand> command);
+		void RegisterCommand(string notificationName, Type command);
 		void RemoveCommand(string notificationName);
 		void ExecuteCommand(INotification notification);
 		bool HasCommand(string notificationName);

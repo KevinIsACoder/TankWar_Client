@@ -60,7 +60,7 @@ namespace PureMVC.Patterns.Facade
 		{
 			return model.HasProxy(proxyName);
 		}
-		public virtual void RegisterCommand(string notificationName, Func<ICommand> command)
+		public virtual void RegisterCommand(string notificationName, Type command)
 		{
             controller.RegisterCommand(notificationName, command);
 		}

@@ -10,7 +10,7 @@ namespace PureMVC.Core
 	{
 		protected Dictionary<string, IProxy> proxyMap = new Dictionary<string, IProxy>();
         protected static IModel _instance;
-
+        private static readonly object sync_object = new object();
 		public Model()
 		{
            proxyMap = new Dictionary<string, IProxy>();

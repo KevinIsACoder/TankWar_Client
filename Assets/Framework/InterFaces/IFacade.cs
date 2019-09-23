@@ -14,7 +14,7 @@ namespace PureMVC.Interfaces
 		bool HasProxy(string proxyName);
 
 		//for Command
-		void RegisterCommand(string notificationName, Func<ICommand> command);
+		void RegisterCommand(string notificationName, Type command);
 		void RemoveCommand(string notifycationName);
 		bool HasCommand(string notificationName);
 
