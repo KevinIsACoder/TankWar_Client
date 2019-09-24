@@ -10,16 +10,6 @@ using System;
 *DESCRIPTION: 
 */
 public class BundleObject : MyScriptObject {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
     public string assetName = "Bundle";
     public BuildTarget target = BuildTarget.Android;
     public string outPath = "Assets/StreamingAssets";

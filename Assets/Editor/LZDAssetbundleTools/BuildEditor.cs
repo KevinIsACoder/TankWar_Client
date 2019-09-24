@@ -9,7 +9,8 @@ using UnityEditorInternal;
 *DESCRIPTION: 
 */
 [CustomEditor(typeof(BundleObject))]
-public class BuildEditor : Editor {
+public class BuildEditor : Editor
+{
 
     private SerializedProperty m_target;
     private SerializedProperty m_outPath;
@@ -25,7 +26,7 @@ public class BuildEditor : Editor {
     private string SaveName;
 
     private float m_space = 10;
-    private float m_width = 100; 
+    private float m_width = 100;
     void OnEnable()
     {
         m_target = serializedObject.FindProperty("target");
@@ -48,7 +49,6 @@ public class BuildEditor : Editor {
     }
     void Awake()
     {
-
     }
     public override void OnInspectorGUI()
     {
@@ -64,29 +64,32 @@ public class BuildEditor : Editor {
         {
             bundleList.DoLayoutList();
         }
-        if(m_copyFoldOut.boolValue = EditorGUILayout.Foldout(m_copyFoldOut.boolValue, string.Format("Copy({0})", copyList.count)))
+        if (m_copyFoldOut.boolValue = EditorGUILayout.Foldout(m_copyFoldOut.boolValue, string.Format("Copy({0})", copyList.count)))
         {
             copyList.DoLayoutList();
         }
         serializedObject.ApplyModifiedProperties();
+        GUIUtility.ExitGUI();
     }
     // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
     void DrawButtonFunction()
     {
         EditorGUILayout.BeginHorizontal();
-        if(GUILayout.Button("Build Bundle"))
+        if (GUILayout.Button("Build Bundle"))
         {
             BundleBuilder.BuildBundle(target as BundleObject);
         }
-        if(GUILayout.Button("Save as"))
+        if (GUILayout.Button("Save as"))
         {
             if (!string.IsNullOrEmpty(SaveName))
             {
@@ -107,10 +110,10 @@ public class BuildEditor : Editor {
         rect.x += m_width + m_space;
         EditorGUI.LabelField(new Rect(rect.x, rect.y, m_width, height), "SerachOperation");
         rect.x += m_width + m_space;
-        EditorGUI.LabelField(new Rect(rect.x , rect.y, 200, height), "SearchPath");
+        EditorGUI.LabelField(new Rect(rect.x, rect.y, 200, height), "SearchPath");
     }
 
-    void DrawBundleElement(Rect rect,int index,bool isActive,bool focuse)
+    void DrawBundleElement(Rect rect, int index, bool isActive, bool focuse)
     {
         rect.y += 1;
         float height = EditorGUIUtility.singleLineHeight;
@@ -119,7 +122,7 @@ public class BuildEditor : Editor {
         SerializedProperty filePattern = bundleinfo.FindPropertyRelative("filePattern");
         SerializedProperty searchOperation = bundleinfo.FindPropertyRelative("searchOption");
         SerializedProperty searchPath = bundleinfo.FindPropertyRelative("searchPath");
-        EditorGUI.PropertyField(new Rect(rect.x,rect.y,m_width,height),bundleName,GUIContent.none);
+        EditorGUI.PropertyField(new Rect(rect.x, rect.y, m_width, height), bundleName, GUIContent.none);
         rect.x += m_width + m_space;
         EditorGUI.PropertyField(new Rect(rect.x, rect.y, m_width, height), filePattern, GUIContent.none);
         rect.x += m_width + m_space;
@@ -140,7 +143,7 @@ public class BuildEditor : Editor {
         rect.x += m_width + m_space;
         EditorGUI.LabelField(new Rect(rect.x, rect.y, 200, height), "DestPath");
     }
-    void DrawCopyListElement(Rect rect,int index,bool isActive,bool focus)
+    void DrawCopyListElement(Rect rect, int index, bool isActive, bool focus)
     {
         rect.y += 1;
         float height = EditorGUIUtility.singleLineHeight;
@@ -149,9 +152,9 @@ public class BuildEditor : Editor {
         SerializedProperty filePattern = copyinfo.FindPropertyRelative("filePattern");
         SerializedProperty destPath = copyinfo.FindPropertyRelative("destPath");
         SerializedProperty searchOption = copyinfo.FindPropertyRelative("searchOption");
-        EditorGUI.PropertyField(new Rect(rect.x, rect.y, m_width + 100, height),sourthPath, GUIContent.none);
+        EditorGUI.PropertyField(new Rect(rect.x, rect.y, m_width + 100, height), sourthPath, GUIContent.none);
         rect.x += m_width + m_space;
-        EditorGUI.PropertyField(new Rect(rect.x, rect.y, m_width, height),filePattern, GUIContent.none);
+        EditorGUI.PropertyField(new Rect(rect.x, rect.y, m_width, height), filePattern, GUIContent.none);
         rect.x += m_width + m_space;
         EditorGUI.PropertyField(new Rect(rect.x, rect.y, m_width, height), destPath, GUIContent.none);
         rect.x += m_width + m_space;
@@ -159,7 +162,7 @@ public class BuildEditor : Editor {
     }
     void RemoveCallBack(ReorderableList list)
     {
-        if(EditorUtility.DisplayDialog("Warning!","Do you want to delete the element!", "OK", "Cancel"))
+        if (EditorUtility.DisplayDialog("Warning!", "Do you want to delete the element!", "OK", "Cancel"))
         {
             ReorderableList.defaultBehaviours.DoRemoveButton(list);
         }

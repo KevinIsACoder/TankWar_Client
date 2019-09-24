@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfbfe84b4762f9e4896aa48f623361bb, type: 3}
+  m_Name: Bundle
+  m_EditorClassIdentifier: 
+  assetName: Bundle
+  target: 13
+  outPath: Assets/StreammingAssets/
+  filetxtName: file.txt
+  forceRebuild: 0
+  bundleinfo:
+  - filePattern: '*.txt'
+    bundleName: script_lua
+    searchPath: Script_LuaBytes
+    searchOption: 1
+  copyinfo: []
+  bundleFoldOut: 1
+  copyFoldOut: 1

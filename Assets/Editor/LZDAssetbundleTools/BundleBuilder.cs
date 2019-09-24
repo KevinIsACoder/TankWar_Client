@@ -25,15 +25,40 @@ public class BundleBuilder{
 
     public static void BuildBundle(BundleObject bundleobj)
     {
-        if (bundleobj.forceRebuild && Directory.Exists(bundleobj.outPath)) Directory.Delete(bundleobj.outPath, true); //判断要不要重新生成StreamingAssets
-        Directory.CreateDirectory(bundleobj.outPath);
+        if (bundleobj.forceRebuild && Directory.Exists(utility.DataPath)) Directory.Delete(utility.DataPath, true); //判断要不要重新生成StreamingAssets
+        Directory.CreateDirectory(utility.DataPath);
         AssetDatabase.Refresh();
         CopyFiles(bundleobj);
+        ConvertLuaFileToText();
         AssetDatabase.Refresh();
-        BuildPipeline.BuildAssetBundles(bundleobj.outPath, GetBundleList(bundleobj).ToArray(), BuildAssetBundleOptions.DeterministicAssetBundle, bundleobj.target);
+        BuildPipeline.BuildAssetBundles(utility.DataPath, GetBundleList(bundleobj).ToArray(), BuildAssetBundleOptions.DeterministicAssetBundle, bundleobj.target);
         if (bundleobj.filetxtName != null) CreateFileList(bundleobj.outPath,bundleobj.filetxtName);
         AssetDatabase.Refresh();
         Debug.Log("Build Complete");
+    }   
+    private static void ConvertLuaFileToText()
+    {
+        string sourcePath = Appconst.LuaDir;
+        string destPath = Appconst.LuaTxtDir;
+        if(!Directory.Exists(destPath)) Directory.CreateDirectory(destPath);
+        string[] files = Directory.GetFiles(sourcePath, "*.lua", SearchOption.AllDirectories);
+        foreach(string file in files)
+        {
+            if(file.EndsWith(".meta")) continue;
+            string pathName = Path.GetDirectoryName(file) + "/";
+            string newPath = pathName.Replace(sourcePath, destPath);
+            Debug.LogError(newPath);
+            if(!Directory.Exists(newPath)) Directory.CreateDirectory(newPath);
+            string filePath = newPath + "/" + newPath.Replace(destPath, "").Replace("/", "_") + Path.GetFileName(file) + ".txt"; 
+            try
+            {
+                File.Copy(file, filePath, true);
+            }
+            catch(Exception ex)
+            {
+                Debug.LogError(ex.Message);
+            }
+        }
     }
     private static void CopyFiles(BundleObject bundleobj)
     {

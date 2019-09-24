@@ -10,8 +10,8 @@ using System;
 //DESC : ****
 public class LuaManager
 {
-    private LuaManager _instance;
-    public LuaManager Instance
+    private static LuaManager _instance;
+    public static LuaManager Instance
     {
         get
         {
@@ -29,13 +29,13 @@ public class LuaManager
     public void Init()
     {
         luaEnv = new LuaEnv();
-        if(Appconst.DebugMode)
+        if(!Appconst.bundleMode)
         {
             luaEnv.AddLoader(LoadFromFile);  //加载Lua代码
         }
         else
         {
-            luaEnv.AddLoader(LoadFromBundle);
+            luaEnv.AddLoader(LoadFromBundle); //通过Bundle加载Lua代码
         }
         luaEnv.DoString("require 'main'"); //xlua建议整个程序就一个Dostring("require 'main'"), 然后在main中加载其他模块
         LuaStart = luaEnv.Global.Get<Action>("Start");
@@ -59,13 +59,14 @@ public class LuaManager
     byte[] LoadFromBundle(ref string fileName)
     {
         byte[] bytes = null;
-        string luadDir = utility.DataPath + Appconst.LuaDir + "/" + Appconst.ExactName;
-        if(!File.Exists(luadDir))
+        string luadDir = utility.DataPath;
+        if(!Directory.Exists(luadDir))
         {
             Debug.LogError("Lua Bundle Not Exsit----");
             return null;
         }
-        luaBundle = AssetBundle.LoadFromFile(luadDir);
+        if(luaBundle == null)
+            luaBundle = AssetBundle.LoadFromFile(luadDir + "script_lua");
         if(luaBundle != null)
         {
             fileName = fileName.Replace(".", "_") + ".lua.txt";
@@ -76,7 +77,7 @@ public class LuaManager
             }
             catch(System.Exception ex)
             {
-                Debug.LogError("Read Lua Bundle Erro----" + ex.Message);
+                Debug.LogError("Read Lua Bundle Error----" + ex.Message);
                 luaEnv.Dispose();
             }
         }

@@ -25,7 +25,7 @@ public abstract class MyScriptObject : ScriptableObject {
     public static T CreateScriptObject<T>(string assetName,T Obj = null) where T:ScriptableObject
     {
         if (Obj == null) Obj = ScriptableObject.CreateInstance<T>();
-        if (MyScriptObjectPath == null) Directory.CreateDirectory(MyScriptObjectPath);
+        if (!Directory.Exists(MyScriptObjectPath)) Directory.CreateDirectory(MyScriptObjectPath);
         AssetDatabase.CreateAsset(Obj, GetPath(assetName));
         return Obj;
     }

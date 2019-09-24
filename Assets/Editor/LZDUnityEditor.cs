@@ -12,16 +12,20 @@ namespace lzdUnityEditor
     public class LZDUnityEditor
     {
         private const string root_name = "LZDUnityEditor";
-        [MenuItem(root_name + "/BundleObject",false,100)]
+        [MenuItem(root_name + "/CreateBundleObject",false,100)]
         private static void createBundle()
         {
             MyScriptObject.CreateScriptObject<BundleObject>("Bundle");
         }
-        [MenuItem(root_name + "/ToPNG", false, 101)]
-        private static void ChangeToPNG()
+        [MenuItem(root_name + "/BuildIOSBundle", false, 101)]
+        private static void BuildIOSBundle()
         {
-            Debug.Log("666");
+            
         }
+        [MenuItem(root_name + "/BuildAndroidBundle", false, 102)]
+        private static void BuildAndroidBundle()
+        {
 
+        }
     }
 }

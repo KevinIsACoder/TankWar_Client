@@ -7,7 +7,6 @@ local M = {};
 M.__index = M;
 function Start()
     print("Lua Main Begin Start");
-    require("LuaStudy.LuaTable.TableStudy"):Init();
 end
 
 function Exit()
@@ -20,7 +19,6 @@ function Bind(func,obj)
     end
 end
 local util = require "xlua.util";
-local luatable = require "LuaStudy.LuaTable.TableStudy";
 local Yield = util.async_to_sync(function(yield,callback)
    LZDFramework.LuaManager:Yield(yield,callback);
 end)
