@@ -47,10 +47,10 @@ public class LuaManager
     {
         byte[] bytes = null;
         fileName = fileName.Replace(".", "/");  //返还给调试器的路径
-        string filePath = utility.DataPath + Appconst.LuaDir + "/" + fileName + ".lua";
-        if(!Directory.Exists(filePath))
+        string filePath = Appconst.LuaDir + fileName + ".lua";
+        if(!File.Exists(filePath))
         {
-            Debug.LogError("Lua Directory not Exist, Please Export IOS/Android First");
+            Debug.LogError("Lua File not Exist, Please Export IOS/Android First");
             return null;
         }
         bytes = System.Text.Encoding.UTF8.GetBytes(File.ReadAllText(filePath));

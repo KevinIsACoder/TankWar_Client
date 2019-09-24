@@ -3,7 +3,7 @@ using UnityEngine;
 public class Appconst{
 
     public static bool DebugMode = true;
-    public static bool bundleMode = true;
+    public static bool bundleMode = false;
     public static string gameName = "LZDGame"; 
 
     public static string streammingAssets = "StreammingAssets";
