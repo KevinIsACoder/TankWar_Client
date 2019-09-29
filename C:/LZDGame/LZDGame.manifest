@@ -1,7 +1,0 @@
-ManifestFileVersion: 0
-CRC: 3215861823
-AssetBundleManifest:
-  AssetBundleInfos:
-    Info_0:
-      Name: script_lua
-      Dependencies: {}

@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditorInternal;
 //AUTHOR : 梁振东
 //DATE : 9/27/2019 6:05:22 PM
 //DESC : ****
-namespace lzdUnityEditor
+namespace XluaFramework
 {
+    [System.Serializable]
     public class LuaInjection
     {
         [SerializeField]
@@ -15,6 +17,15 @@ namespace lzdUnityEditor
             get
             {
                 return typeName;
+            }
+        }
+        [SerializeField]
+        private string keyName;
+        public string KeyName
+        {
+            get
+            {
+                return keyName;
             }
         }
         [SerializeField]
@@ -30,6 +41,5 @@ namespace lzdUnityEditor
                 objectValue = value;
             }
         }
-        
     }
 }
