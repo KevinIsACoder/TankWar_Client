@@ -13,28 +13,30 @@ using UnityEngineInternal;
 public class BundleBuilder{
 
     private static string SPLIGHTLINE = "|";
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-    public static void BuildBundle(BundleObject bundleobj)
+    // public static void BuildBundle(BundleObject bundleobj)
+    // {
+    //     if (bundleobj.forceRebuild && Directory.Exists(utility.DataPath)) Directory.Delete(utility.DataPath, true); //判断要不要重新生成StreamingAssets
+    //     Directory.CreateDirectory(utility.DataPath);
+    //     AssetDatabase.Refresh();
+    //     CopyFiles(bundleobj);
+    //     ConvertLuaFileToText();
+    //     AssetDatabase.Refresh();
+    //     BuildPipeline.BuildAssetBundles(utility.DataPath, GetBundleList(bundleobj).ToArray(), BuildAssetBundleOptions.DeterministicAssetBundle, bundleobj.target);
+    //     if (bundleobj.filetxtName != null) CreateFileList(bundleobj.outPath,bundleobj.filetxtName);
+    //     AssetDatabase.Refresh();
+    //     Debug.Log("Build Complete");
+    // }
+    public static void BuildBundle()
     {
-        if (bundleobj.forceRebuild && Directory.Exists(utility.DataPath)) Directory.Delete(utility.DataPath, true); //判断要不要重新生成StreamingAssets
-        Directory.CreateDirectory(utility.DataPath);
-        AssetDatabase.Refresh();
-        CopyFiles(bundleobj);
-        ConvertLuaFileToText();
-        AssetDatabase.Refresh();
-        BuildPipeline.BuildAssetBundles(utility.DataPath, GetBundleList(bundleobj).ToArray(), BuildAssetBundleOptions.DeterministicAssetBundle, bundleobj.target);
-        if (bundleobj.filetxtName != null) CreateFileList(bundleobj.outPath,bundleobj.filetxtName);
-        AssetDatabase.Refresh();
-        Debug.Log("Build Complete");
+        if(!Directory.Exists(utility.StreamAssetsDir)) Directory.CreateDirectory(utility.StreamAssetsDir); //创建streamingAssets目录
+        string[] files = Directory.GetFiles(Appconst.OTAPath);
+        foreach(var file in files)
+        {
+            Debuger.EnableLog = true;
+            Debuger.fileName = "testLog";
+            Debuger.Log("testlog", file);
+            if(file.EndsWith(".meta")) continue;
+        }
     }   
     private static void ConvertLuaFileToText()
     {
@@ -96,7 +98,6 @@ public class BundleBuilder{
             abb.assetNames = files;
             buildList.Add(abb);
         }
-        Debug.LogError(buildList.Count);
         return buildList;
     }
     private static void CreateFileList(string fileListpath,string filename)

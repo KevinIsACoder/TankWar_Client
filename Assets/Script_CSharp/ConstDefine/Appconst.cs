@@ -10,6 +10,8 @@ public class Appconst{
 
     public static string url = "";
     public static string LuaDir = "Assets/Script_Lua/";
-    public static string LuaTxtDir = "Assets/Script_LuaBytes/";
+    public static string LuaTxtDir = OTAPath + "Script_LuaBytes/";
     public static string ExactName = ".assetbundle";
+
+    public const string OTAPath = "Assets/OTAPath/";
 }

@@ -68,8 +68,8 @@ namespace PureMVC.Core
 			if(observerMap.ContainsKey(notification.Name))
 			{
 				List<IObserver> ref_observers = observerMap[notification.Name];
-				List<IObserver> observers = new List<IObserver>(ref_observers); //从原数组中复制一份出来，因为原数组随时会变
-				foreach(var observer in observers)
+				//List<IObserver> observers = new List<IObserver>(ref_observers); //从原数组中复制一份出来，因为原数组随时会变
+				foreach(var observer in ref_observers)
 				{
 					observer.NotifyObserver(notification);
 				}

@@ -69,6 +69,18 @@ public class utility
         md5Str = md5Str.ToString().PadLeft(32, '0');
         return md5Str;
     }
+    //获取UTC时间
+    public static DateTime FromUnixTime(int time)
+    {
+        DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0,DateTimeKind.Utc);
+        return dateTime.AddSeconds(time);
+    }
+    //转换成utc时间
+    public static int ToUnixTime(DateTime time)
+    {
+        DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        return System.Convert.ToInt32((time - dateTime).TotalSeconds);
+    }
     //应用程序所在目录，热更新所在目录,资源解压的目录
     public static string DataPath
     {

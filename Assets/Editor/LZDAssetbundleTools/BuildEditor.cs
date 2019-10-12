@@ -11,7 +11,6 @@ using UnityEditorInternal;
 [CustomEditor(typeof(BundleObject))]
 public class BuildEditor : Editor
 {
-
     private SerializedProperty m_target;
     private SerializedProperty m_outPath;
     private SerializedProperty m_filetxtName;
@@ -71,23 +70,13 @@ public class BuildEditor : Editor
         serializedObject.ApplyModifiedProperties();
         GUIUtility.ExitGUI();
     }
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     void DrawButtonFunction()
     {
         EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("Build Bundle"))
         {
-            BundleBuilder.BuildBundle(target as BundleObject);
+           // BundleBuilder.BuildBundle(target as BundleObject);
+           BundleBuilder.BuildBundle();
         }
         if (GUILayout.Button("Save as"))
         {
