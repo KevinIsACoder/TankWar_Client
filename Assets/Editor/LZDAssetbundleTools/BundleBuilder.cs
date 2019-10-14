@@ -32,9 +32,6 @@ public class BundleBuilder{
         string[] files = Directory.GetFiles(Appconst.OTAPath);
         foreach(var file in files)
         {
-            Debuger.EnableLog = true;
-            Debuger.fileName = "testLog";
-            Debuger.Log("testlog", file);
             if(file.EndsWith(".meta")) continue;
         }
     }   

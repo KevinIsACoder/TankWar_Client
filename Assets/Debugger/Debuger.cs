@@ -14,7 +14,7 @@ namespace UnityEngine
 		public static bool EnableLog; //是否启用日志写入
 		public static bool EnableTime; //是否记录时间
 		public static string fileLogPath = Application.persistentDataPath + "/" + Appconst.gameName + "/";
-		public static string fileName = "";
+		public static string fileName = Appconst.gameName;
 		public const string log_prefix = ">>>>>>>>";
 		public static string GetLogContext(string tag, string context)
 		{
@@ -47,17 +47,19 @@ namespace UnityEngine
 		}
 		public static void LogToFile(string tag, string context)
 		{
+			string filePath = fileLogPath + fileName + ".log";
+			StreamWriter sw;
 			if(!Directory.Exists(fileLogPath))
 			{
 				Directory.CreateDirectory(fileLogPath);
 			}
-			string filePath = fileLogPath + fileName + ".log";
-			FileStream fs = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
             try
 			{
-				context = GetLogContext(tag, context);
-				byte[] bytes = System.Text.Encoding.UTF8.GetBytes(context);
-				fs.Write(bytes, 0, bytes.Length);
+				sw = File.AppendText(filePath);
+				string message = GetLogContext(tag, context);
+				byte[] bytes = System.Text.Encoding.UTF8.GetBytes(message);
+				sw.WriteLine(message);
+				sw.Close();
 			}
 			catch(Exception ex)
 			{
