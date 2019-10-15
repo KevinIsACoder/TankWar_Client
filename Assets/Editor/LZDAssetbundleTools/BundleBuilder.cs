@@ -13,26 +13,34 @@ using UnityEngineInternal;
 public class BundleBuilder{
 
     private static string SPLIGHTLINE = "|";
-    // public static void BuildBundle(BundleObject bundleobj)
-    // {
-    //     if (bundleobj.forceRebuild && Directory.Exists(utility.DataPath)) Directory.Delete(utility.DataPath, true); //判断要不要重新生成StreamingAssets
-    //     Directory.CreateDirectory(utility.DataPath);
-    //     AssetDatabase.Refresh();
-    //     CopyFiles(bundleobj);
-    //     ConvertLuaFileToText();
-    //     AssetDatabase.Refresh();
-    //     BuildPipeline.BuildAssetBundles(utility.DataPath, GetBundleList(bundleobj).ToArray(), BuildAssetBundleOptions.DeterministicAssetBundle, bundleobj.target);
-    //     if (bundleobj.filetxtName != null) CreateFileList(bundleobj.outPath,bundleobj.filetxtName);
-    //     AssetDatabase.Refresh();
-    //     Debug.Log("Build Complete");
-    // }
+    public static void BuildBundle(BundleObject bundleobj)
+    {
+        if (bundleobj.forceRebuild && Directory.Exists(utility.DataPath)) Directory.Delete(utility.DataPath, true); //判断要不要重新生成StreamingAssets
+        Directory.CreateDirectory(utility.DataPath);
+        AssetDatabase.Refresh();
+        CopyFiles(bundleobj);
+        ConvertLuaFileToText();
+        AssetDatabase.Refresh();
+        BuildPipeline.BuildAssetBundles(utility.DataPath, GetBundleList(bundleobj).ToArray(), BuildAssetBundleOptions.DeterministicAssetBundle, bundleobj.target);
+        if (bundleobj.filetxtName != null) CreateFileList(bundleobj.outPath,bundleobj.filetxtName);
+        AssetDatabase.Refresh();
+        Debug.Log("Build Complete");
+    }
     public static void BuildBundle()
     {
-        if(!Directory.Exists(utility.StreamAssetsDir)) Directory.CreateDirectory(utility.StreamAssetsDir); //创建streamingAssets目录
-        string[] files = Directory.GetFiles(Appconst.OTAPath);
+        if(Directory.Exists(utility.StreamAssetsDir)) Directory.Delete(utility.StreamAssetsDir); //清除原有的assetbundle
+            Directory.CreateDirectory(utility.StreamAssetsDir); //创建streamingAssets目录
+        AssetDatabase.Refresh();
+        string[] files = Directory.GetFiles(Appconst.OTAPath, "*", SearchOption.AllDirectories);
         foreach(var file in files)
         {
             if(file.EndsWith(".meta")) continue;
+            string path = Path.GetDirectoryName(file);
+            string[] childfiles = Directory.GetFiles(path, "*", SearchOption.AllDirectories);
+            foreach(var filename in childfiles)
+            {
+                if(filename.EndsWith(".meta")) continue;
+            }
         }
     }   
     private static void ConvertLuaFileToText()
