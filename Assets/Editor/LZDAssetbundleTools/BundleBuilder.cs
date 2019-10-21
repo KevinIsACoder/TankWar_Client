@@ -26,23 +26,6 @@ public class BundleBuilder{
         AssetDatabase.Refresh();
         Debug.Log("Build Complete");
     }
-    public static void BuildBundle()
-    {
-        if(Directory.Exists(utility.StreamAssetsDir)) Directory.Delete(utility.StreamAssetsDir); //清除原有的assetbundle
-            Directory.CreateDirectory(utility.StreamAssetsDir); //创建streamingAssets目录
-        AssetDatabase.Refresh();
-        string[] files = Directory.GetFiles(Appconst.OTAPath, "*", SearchOption.AllDirectories);
-        foreach(var file in files)
-        {
-            if(file.EndsWith(".meta")) continue;
-            string path = Path.GetDirectoryName(file);
-            string[] childfiles = Directory.GetFiles(path, "*", SearchOption.AllDirectories);
-            foreach(var filename in childfiles)
-            {
-                if(filename.EndsWith(".meta")) continue;
-            }
-        }
-    }   
     private static void ConvertLuaFileToText()
     {
         string sourcePath = Appconst.LuaDir;
