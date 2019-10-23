@@ -4,10 +4,11 @@ using System;
 using System.IO;
 using System.Text;
 using System.Globalization;
+using UnityEngine;
 // Author:梁振东
 // Date:10/12/2019 11:43:28 AM
 // DESC:debug输出日志到本地
-namespace UnityEngine
+namespace LZDUtils
 {
     public class Debuger
     {

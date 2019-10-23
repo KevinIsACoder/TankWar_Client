@@ -75,8 +75,7 @@ public class BuildEditor : Editor
         EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("Build Bundle"))
         {
-           // BundleBuilder.BuildBundle(target as BundleObject);
-           BundleBuilder.BuildBundle();
+           BundleBuilder.BuildBundle(target as BundleObject);
         }
         if (GUILayout.Button("Save as"))
         {
