@@ -3,9 +3,8 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -17,7 +16,11 @@ MonoBehaviour:
   outPath: Assets/StreamingAssets
   filetxtName: file.txt
   forceRebuild: 0
-  bundleinfo: []
+  bundleinfo:
+  - filePattern: '*'
+    bundleName: Script_Lua
+    searchPath: Script_Lua
+    searchOption: 1
   copyinfo: []
-  bundleFoldOut: 0
-  copyFoldOut: 0
+  bundleFoldOut: 1
+  copyFoldOut: 1

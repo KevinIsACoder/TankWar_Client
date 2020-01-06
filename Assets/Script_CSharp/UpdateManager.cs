@@ -11,7 +11,9 @@ public class UpdateManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        LuaManager.Instance.Init();
+        //LuaManager.Instance.Init();
+        int key = (14 << 10) | 8;
+        Debug.Log(key);  
     }
 
     // Update is called once per frame

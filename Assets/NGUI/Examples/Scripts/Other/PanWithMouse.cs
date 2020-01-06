@@ -32,6 +32,6 @@ public class PanWithMouse : MonoBehaviour
 		float y = Mathf.Clamp((pos.y - halfHeight) / halfHeight / range, -1f, 1f);
 		mRot = Vector2.Lerp(mRot, new Vector2(x, y), delta * 5f);
 
-		mTrans.localRotation = mStart * Quaternion.Euler(-mRot.y * degrees.y, mRot.x * degrees.x, 0f);
+		mTrans.localRotation = mStart * Quaternion.Euler(mRot.y * degrees.y, mRot.x * degrees.x, 0f);
 	}
 }

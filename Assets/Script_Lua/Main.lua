@@ -25,6 +25,9 @@ function Start()
    multi:AddTest();
    multi:PrintMember();
    multi:MultiInherited();
+   --协程测试
+   local cor = require("LuaStudy.LuaCoroutine"):New()
+   cor:Create() 
 end
 
 function Exit()

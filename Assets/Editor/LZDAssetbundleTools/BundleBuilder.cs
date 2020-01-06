@@ -94,7 +94,7 @@ public class BundleBuilder{
         if (File.Exists(filetxtPath)) File.Delete(filetxtPath); //如果file.txt存在了已经，就删除存在的，重新生成
         List<string> fileList = new List<string>();
         TraverseFile(fileListpath, fileList);
-        FileStream fs = new FileStream(filetxtPath, FileMode.CreateNew);
+        FileStream fs = new FileStream(fileListpath, FileMode.OpenOrCreate);
         StreamWriter sw = new StreamWriter(fs);
         foreach (string file in fileList)
         {
