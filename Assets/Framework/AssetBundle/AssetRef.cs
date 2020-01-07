@@ -15,8 +15,19 @@ namespace LZDFrameWork
 				return dependence;
 			}
 		}
-		private AssetBundle assetBundle;
-		private UnityEngine.Object asset; //资源
+		private AssetBundle bundle;
+		public AssetBundle Bundle
+		{
+			get
+			{
+				return bundle;
+			}
+			set
+			{
+				bundle = value;
+			}
+		}
+		public UnityEngine.Object asset; //资源
 		private FSM<AssetRef> fsm; //资源加载状态机,根据不同状态加载资源
 		private Dictionary<UnityEngine.Object, Action<UnityEngine.Object>> handlers; //资源加载成功后, 调用回调，参数是加载成功后的资源
 		public Dictionary<UnityEngine.Object, Action<UnityEngine.Object>> Handlers
@@ -85,7 +96,7 @@ namespace LZDFrameWork
 			fsm = new FSM<AssetRef>(this);
 		}
 		//加载成功后回调方法
-		void CallBack()
+		public void CallBack()
 		{
 			foreach(var kv in handlers)
 			{
@@ -117,6 +128,10 @@ namespace LZDFrameWork
 		public void Release(UnityEngine.Object handler = null)
 		{
 			referenceCount--;
+			if(handlers.ContainsKey(handler)) //移除绑定到object的监听
+			{
+				handlers.Remove(handler);
+			}
 			if(referenceCount <= 0)  //当前资源无引用, 释放assetbundle
 			{
 				status = Status.UnLoading;
@@ -124,22 +139,12 @@ namespace LZDFrameWork
 		}
 		public void UnLoadDeps()
 		{
+			if(dependence == null) return;
 			for(int i = 0; i < dependence.Length; ++i)
 			{
-				//dependence[i].Release()
+				AssetManagerInterval.Instance.UnLoadAsset(dependence[i]);
 			}
-		}
-	}
-	public class AssetInfo
-	{
-		public string name {get; set;} //资源名字
-		public System.Type type{get; set;} //类型，texture, object...
-		public UnityEngine.Object asset{get; set;}
-		public AssetInfo(string fileName, System.Type type, UnityEngine.Object obj)
-		{
-			this.name = fileName;
-			this.type = type;
-			this.asset = obj;
+			dependence = null;
 		}
 	}
 	//资源的各个状态
@@ -149,7 +154,8 @@ namespace LZDFrameWork
 		Loading,
 		Loaded,
 		UnLoading,
-		UnLoaded
+		UnLoaded,
+		Error
 	}
 	public abstract class FSMState<T>
 	{
@@ -172,16 +178,48 @@ namespace LZDFrameWork
 			currentStatus.Enter(owner);
 		}
 	}
-	sealed class LoadingDeps : FSMState<AssetRef>  //加载依赖
+	public class LoadingDeps : FSMState<AssetRef>  //加载依赖
 	{
 		static readonly LoadingDeps instance = new LoadingDeps();
 		public static LoadingDeps Instance {get {return instance; }}
 		public override void Enter(AssetRef entity)
 		{
 			HashSet<string> waitQueue = new HashSet<string>();
-			for(int i = 0; i < entity.Dependence.Length; ++i)
+			AssetRef[] deps;  //依赖资源
+			deps = AssetManagerInterval.Instance.LoadDependences(entity, (obj) => 
 			{
-					
+				if(obj == null)
+				{
+					entity.Status = Status.Error;
+					return;
+				}
+				if(waitQueue.Count == 0)
+				{
+					entity.Status = Status.Loading;			
+				}
+				else
+				{
+				    if(waitQueue.Contains(obj.name))
+					{
+						waitQueue.Remove(obj.name);
+					}
+				}
+
+			});
+			if(deps == null)    //如果没有依赖，进行下一个状态，加载资源
+			{
+				entity.Status = Status.Loading;
+				return;
+			}
+			else
+			{
+				for(int i = 0; i < deps.Length; ++i)
+				{
+					if(deps[i] != null && (deps[i].Status == Status.LoadingDepedence || deps[i].Status == Status.Loading))
+					{
+						waitQueue.Add(deps[i].FileName);
+					}
+				}
 			}
 		}
 		public override void Exit(AssetRef entity)
@@ -191,21 +229,32 @@ namespace LZDFrameWork
 	}
 	public class LoadingState : FSMState<AssetRef>
 	{
-		
 		public override void Enter(AssetRef entity)
 		{
-			
+			if(entity.asset == null)
+			{
+				AssetManagerInterval.Instance.Load(entity, (obj) =>
+				{
+					entity.asset = obj;
+					entity.Status = Status.Loaded;
+				});
+			}
+			else
+			{
+				entity.Status = Status.Loaded;
+			}
+			     
 		}
 		public override void Exit(AssetRef entity)
 		{
-
+			AssetManagerInterval.Instance.CancleLoading(entity);
 		}
 	}
 	public class LoadedState : FSMState<AssetRef>
 	{
 		public override void Enter(AssetRef entity)
 		{
-
+			entity.CallBack();
 		}
 		public override void Exit(AssetRef entity)
 		{
@@ -216,7 +265,7 @@ namespace LZDFrameWork
 	{
 		public override void Enter(AssetRef entity)
 		{
-
+			AssetManagerInterval.Instance.UnLoadAsset(entity);
 		}
 		public override void Exit(AssetRef entity)
 		{
@@ -224,6 +273,17 @@ namespace LZDFrameWork
 		}
 	}
 	public class UnLoadedState : FSMState<AssetRef>
+	{
+		public override void Enter(AssetRef Enity)
+		{
+			Enity.Release();
+		}
+		public override void Exit(AssetRef Enity)
+		{
+
+		}
+	}
+	public class ErrorState : FSMState<AssetRef>
 	{
 		public override void Enter(AssetRef Enity)
 		{

@@ -9,8 +9,8 @@ namespace LZDFrameWork
     public class AssetManagerInterval
     {
 		private const string manifestName = "AssetBundleManifest";
-        private AssetManagerInterval instance;
-        public AssetManagerInterval Instance
+        private static AssetManagerInterval instance;
+        public 	static AssetManagerInterval Instance
         {
             get
             {
@@ -40,7 +40,7 @@ namespace LZDFrameWork
 				AssetRef assetRef = new AssetRef(assetName, type);
 				assetCache.Add(assetName, assetRef);
 			}
-			Action<Object> action = delegate(Object obj)
+			Action<UnityEngine.Object> action = delegate(UnityEngine.Object obj)
 			{
 				if(obj != null)
 					callback.Invoke(obj);
@@ -72,6 +72,35 @@ namespace LZDFrameWork
 				}
 			}
 			return deps;
+		}
+		public void Load(AssetRef assetRef, Action<UnityEngine.Object> callback)
+		{
+			if(!assetCache.ContainsKey(assetRef.FileName))
+			{
+				string file = utility.DataPath + assetRef.FileName + Appconst.ExactName;
+				
+			}
+			else
+			{
+				callback(assetCache[assetRef.FileName].asset);
+			}
+		}
+		public void CancleLoading(AssetRef assetRef)
+		{
+
+		}
+		public void UnLoadDependence()
+		{
+
+		}
+		public void UnLoadAsset(AssetRef asset)
+		{
+			
+		}
+	    public void Clear()
+		{
+			Resources.UnloadUnusedAssets();
+			assetCache.Clear();
 		}
     }
 }
