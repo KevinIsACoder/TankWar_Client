@@ -31,7 +31,7 @@ public class DBAccess
 
 			dbConnection.DefaultTimeout = 1;
 			#if UNITY_IPHONE
-			iPhone.SetNoBackupFlag(datapath);
+			UnityEngine.iOS.Device.SetNoBackupFlag(datapath);
 			#endif
 		}
 		catch(System.Exception ex)

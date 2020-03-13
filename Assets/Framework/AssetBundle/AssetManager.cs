@@ -1,16 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+public class AssetManager : Singleton<AssetManager> 
+{
+	public void LoadScene(string sceneName, Action<UnityEngine.Object> callback, UnityEngine.Object handler)
+	{
 
-public class AssetManager : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
 	}
-	
-	// Update is called once per frame
-	void Update () {
+	public void LoadTexure(string name, Action<Texture> callback)
+	{
 		
 	}
 }

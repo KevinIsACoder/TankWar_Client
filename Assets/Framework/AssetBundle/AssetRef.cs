@@ -45,6 +45,18 @@ namespace LZDFrameWork
 				return fileName;
 			}
 		}
+		private string url;
+		public string LoadUrl
+		{
+			get
+			{
+				return url;
+			}
+			set
+			{
+				url = value;
+			}
+		}
 		private UnityEngine.Object handler;
 		public UnityEngine.Object Handler
 		{
@@ -54,6 +66,17 @@ namespace LZDFrameWork
 			}
 		}
 		private System.Type type;
+		public System.Type Type
+		{
+			get
+			{
+				return type;
+			}
+			set
+			{
+				type = value;
+			}
+		}
 		private Status status;
 		public Status Status
 		{
@@ -90,6 +113,7 @@ namespace LZDFrameWork
 		{
 			this.fileName = fileName;
 			this.type = type;
+			this.url = utility.DataPath + fileName + Appconst.ExactName;
 			referenceCount = 0;
 			status = Status.UnLoaded;
 			handlers = new Dictionary<UnityEngine.Object, Action<UnityEngine.Object>>();

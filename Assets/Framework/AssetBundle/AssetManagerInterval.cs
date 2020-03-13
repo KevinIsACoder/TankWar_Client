@@ -77,8 +77,15 @@ namespace LZDFrameWork
 		{
 			if(!assetCache.ContainsKey(assetRef.FileName))
 			{
-				string file = utility.DataPath + assetRef.FileName + Appconst.ExactName;
-				
+				LoadManager.Instance.Load(assetRef, (obj) =>
+				{
+					if(obj)
+					{
+						callback(obj);
+						assetRef.asset = obj;
+						assetCache.Add(assetRef.FileName, assetRef);
+					}
+				});
 			}
 			else
 			{
@@ -89,7 +96,7 @@ namespace LZDFrameWork
 		{
 
 		}
-		public void UnLoadDependence()
+		public void UnLoadDependence(AssetRef[] deps)  //卸载所有依赖
 		{
 
 		}

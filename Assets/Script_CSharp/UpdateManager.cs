@@ -12,13 +12,21 @@ public class UpdateManager : MonoBehaviour
     void Start()
     {
         //LuaManager.Instance.Init();
-        int key = (14 << 10) | 8;
-        Debug.Log(key);  
+        StartCoroutine(TestCoroutine());
+        UnityEngine.Debug.Log("lzd");
+        
+        Debug.Log(100000000 + 0.5f);
+        Debug.Log(100000000 + 0.5f - 100000000);
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+    IEnumerator TestCoroutine()
+    {
+        Debug.Log("start courtine");
+        yield return null;
     }
 }
